@@ -38,8 +38,12 @@ export default function Home() {
                 priority
               />
             </a>
-            <button onClick={()=> auth.sinInWithGithub()}>Sign In</button>
-            <div>{auth?.user}</div>
+            {auth.user ? (
+              <button onClick={() => auth.signout()}>Sign Out</button>
+            ) : (
+              <button onClick={() => auth.signInWithGitHub()}>Sign In</button>
+            )}
+            <div>{auth?.user?.email}</div>
           </div>
         </div>
       </main>
