@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { Inter } from '@next/font/google';
 import styles from '@/styles/Home.module.css';
-import { useAuth } from '@/lib/auth';
+import { useAuth } from '../lib/auth';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -38,11 +38,10 @@ export default function Home() {
                 priority
               />
             </a>
-            <div>{auth.user}</div>
+            <button onClick={()=> auth.sinInWithGithub()}>Sign In</button>
+            <div>{auth?.user}</div>
           </div>
-
         </div>
-
       </main>
     </>
   );
