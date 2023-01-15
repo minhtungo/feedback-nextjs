@@ -11,21 +11,21 @@ import {
   FormControl,
   FormLabel,
   Input,
+  useToast,
 } from '@chakra-ui/react';
 
 import { useRef } from 'react';
-import { useForm } from 'react-hook-form';
+import { FieldValues, useForm } from 'react-hook-form';
 
 import { createSite } from '@/lib/firestore';
-import { useAuth } from '@/lib/auth';
 
 const AddSiteModal = () => {
-  const auth = useAuth();
-  const userUID = auth?.user.uid;
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const initialRef = useRef(null);
   const finalRef = useRef(null);
+
+  const toast = useToast();
 
   const {
     register,
@@ -34,8 +34,17 @@ const AddSiteModal = () => {
     formState: { errors },
   } = useForm();
 
-  const onCreateSite = (data: NewSite): Promise<void> =>
-    createSite(data, userUID);
+  const onCreateSite = (data: FieldValues): void => {
+    createSite(data);
+    toast({
+      title: 'Success!',
+      description: "We've added your site.",
+      status: 'success',
+      duration: 5000,
+      isClosable: true,
+    });
+    onClose();
+  };
 
   return (
     <>

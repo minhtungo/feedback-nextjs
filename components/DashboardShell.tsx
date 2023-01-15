@@ -21,7 +21,7 @@ const DashboardShell = ({ children }: DashboardShellTypes) => {
   const auth = useAuth();
 
   return (
-    <Box backgroundColor='gray.50'>
+    <Box backgroundColor='gray.50' height='100vh'>
       <Flex
         backgroundColor='white'
         justifyContent='space-between'
@@ -38,7 +38,7 @@ const DashboardShell = ({ children }: DashboardShellTypes) => {
           <Avatar size='sm' src={auth.user.photoURL} />
         </Flex>
       </Flex>
-      <Flex p={8} w='100%' className='he;;sasadasdasd'>
+      <Flex p={8} w='100%'>
         <Flex
           maxWidth='1200px'
           w='100%'

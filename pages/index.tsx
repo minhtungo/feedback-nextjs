@@ -4,6 +4,7 @@ import { useAuth } from '@/lib/auth';
 
 import { Flex, Button, Heading, Icon } from '@chakra-ui/react';
 import { MdOutlineFeedback } from 'react-icons/md';
+import Link from 'next/link';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -29,9 +30,14 @@ export default function Home() {
         </Text> */}
 
         {auth.user ? (
-          <Button size='sm' onClick={() => auth.signout()}>
-            Sign Out
-          </Button>
+          <>
+            <Link href='/dashboard'>
+              <Button my={4} size='sm'>Dashboard</Button>
+            </Link>
+            <Button size='sm' onClick={() => auth.signout()}>
+              Sign Out
+            </Button>
+          </>
         ) : (
           <Button size='sm' mt={4} onClick={() => auth.signInWithGitHub()}>
             Sign In
