@@ -40,9 +40,9 @@ import admin from 'firebase-admin';
 if (!admin.apps.length) {
   admin.initializeApp({
     credential: admin.credential.cert({
-      projectId: process.env.FIREBASE_PROJECT_ID,
-      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-      privateKey: process.env.FIREBASE_PRIVATE_KEY,
+      project_id: process.env.FIREBASE_PROJECT_ID,
+      client_email: process.env.FIREBASE_CLIENT_EMAIL,
+      private_key: process.env.FIREBASE_PRIVATE_KEY,
     }),
     databaseURL: 'https://fast-feedback-1dd6a.firebaseio.com',
   });

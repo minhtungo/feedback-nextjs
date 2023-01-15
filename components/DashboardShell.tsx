@@ -12,6 +12,7 @@ import {
   Box,
   BreadcrumbItem,
   BreadcrumbLink,
+  Button,
 } from '@chakra-ui/react';
 import { MdOutlineFeedback } from 'react-icons/md';
 
@@ -20,7 +21,7 @@ interface DashboardShellTypes {
 }
 
 const DashboardShell = ({ children }: DashboardShellTypes) => {
-  const auth = useAuth();
+  const { user, signout } = useAuth();
 
   return (
     <Box backgroundColor='gray.50' height='100vh'>
@@ -30,14 +31,18 @@ const DashboardShell = ({ children }: DashboardShellTypes) => {
         py={4}
         px={8}
       >
-        <Stack spacing={4} isInline align='center'>
-          <Icon as={MdOutlineFeedback} boxSize={6} />
-          <Link>Feedback</Link>
-          <Link>Sites</Link>
-        </Stack>
         <Flex>
-          <Link mr={4}>Account</Link>
-          <Avatar size='sm' src={auth.user.photoURL} />
+          <Icon as={MdOutlineFeedback} boxSize={6} mr={8} />
+          <Link mr={4}>Feedback</Link>
+          <Link>Sites</Link>
+        </Flex>
+        <Flex justify='center' align='center'>
+          {user && (
+            <Button variant='ghost' mr={2} onClick={() => signout()}>
+              Log Out
+            </Button>
+          )}
+          <Avatar size='sm' src={user?.photoURL} />
         </Flex>
       </Flex>
       <Flex p={8} w='100%'>
@@ -57,7 +62,7 @@ const DashboardShell = ({ children }: DashboardShellTypes) => {
               </BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>
-          <Heading mb={4}>Sites</Heading>
+          <Heading mb={4}>My Sites</Heading>
           {children}
         </Flex>
       </Flex>

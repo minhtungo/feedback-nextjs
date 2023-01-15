@@ -75,7 +75,7 @@ const AddSiteModal = () => {
               <FormLabel>Name</FormLabel>
               <Input
                 placeholder='My site'
-                {...register('site', { required: true, maxLength: 40 })}
+                {...register('name', { required: true, maxLength: 40 })}
               />
             </FormControl>
 

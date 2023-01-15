@@ -13,7 +13,7 @@ export default async function handler(
       ...doc.data(),
     }));
 
-    res.status(200).json(sites);
+    res.status(200).json({ sites });
   } catch (error) {
     console.log('Error getting document:', error);
     res.status(500).json({ error });
