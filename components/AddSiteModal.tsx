@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import {
   Modal,
   ModalOverlay,
@@ -15,12 +17,15 @@ import {
 } from '@chakra-ui/react';
 
 import { useRef } from 'react';
+import { useAuth } from '@/lib/auth';
 import { FieldValues, useForm } from 'react-hook-form';
 
 import { createSite } from '@/lib/firestore';
 
 const AddSiteModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const auth = useAuth();
 
   const initialRef = useRef(null);
   const finalRef = useRef(null);
@@ -35,7 +40,11 @@ const AddSiteModal = () => {
   } = useForm();
 
   const onCreateSite = (data: FieldValues): void => {
-    createSite(data);
+    createSite({
+      authorId: auth.user ? auth.user.uid : null,
+      createdAt: new Date().toISOString(),
+      ...data,
+    });
     toast({
       title: 'Success!',
       description: "We've added your site.",

@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { useState, useEffect, useContext, createContext } from 'react';
 import Router from 'next/router';
 import {
@@ -10,18 +12,22 @@ import {
 import { createUser } from './firestore';
 import { auth } from './firebase';
 
-const authContext = createContext();
+const AuthContext = createContext({
+  user: null,
+  loading: false,
+  signInWithGitHub: () => {},
+  signout: () => {},
+});
 
-export function AuthProvider({ children }) {
-  const auth = useProvideAuth();
-  return <authContext.Provider value={auth}>{children}</authContext.Provider>;
+interface AuthProviderProps {
+  children: React.ReactNode;
 }
 
 export const useAuth = () => {
-  return useContext(authContext);
+  return useContext(AuthContext);
 };
 
-const formatUser = (user) => {
+const formatUser = (user: User) => {
   return {
     uid: user.uid,
     email: user.email,
@@ -30,6 +36,11 @@ const formatUser = (user) => {
     photoURL: user.photoURL,
   };
 };
+
+export function AuthProvider({ children }: AuthProviderProps) {
+  const auth = useProvideAuth();
+  return <AuthContext.Provider value={auth}>{children}</AuthContext.Provider>;
+}
 
 const useProvideAuth = () => {
   const [user, setUser] = useState(null);
@@ -51,7 +62,7 @@ const useProvideAuth = () => {
     }
   };
 
-  const signInWithGitHub = async (redirect) => {
+  const signInWithGitHub = async (redirect: string) => {
     setLoading(true);
 
     try {

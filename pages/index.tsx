@@ -32,7 +32,9 @@ export default function Home() {
         {auth.user ? (
           <>
             <Link href='/dashboard'>
-              <Button my={4} size='sm'>Dashboard</Button>
+              <Button my={4} size='sm'>
+                Dashboard
+              </Button>
             </Link>
             <Button size='sm' onClick={() => auth.signout()}>
               Sign Out

@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { useAuth } from '@/lib/auth';
 import {
   Flex,
@@ -50,7 +52,9 @@ const DashboardShell = ({ children }: DashboardShellTypes) => {
           <Breadcrumb />
           <Breadcrumb>
             <BreadcrumbItem isCurrentPage>
-              <BreadcrumbLink color='gray.700' fontSize='sm'>Sites</BreadcrumbLink>
+              <BreadcrumbLink color='gray.700' fontSize='sm'>
+                Sites
+              </BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>
           <Heading mb={4}>Sites</Heading>
