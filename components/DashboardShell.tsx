@@ -15,6 +15,7 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { MdOutlineFeedback } from 'react-icons/md';
+import AddSiteModal from './AddSiteModal';
 
 interface DashboardShellTypes {
   children: React.ReactNode;
@@ -62,7 +63,10 @@ const DashboardShell = ({ children }: DashboardShellTypes) => {
               </BreadcrumbLink>
             </BreadcrumbItem>
           </Breadcrumb>
-          <Heading mb={4}>My Sites</Heading>
+          <Flex justify='space-between' align='center'>
+            <Heading mb={4}>My Sites</Heading>
+            <AddSiteModal text={'+ Add Site'}/>
+          </Flex>
           {children}
         </Flex>
       </Flex>

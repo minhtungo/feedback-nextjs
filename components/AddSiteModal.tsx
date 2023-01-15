@@ -15,15 +15,19 @@ import {
   Input,
   useToast,
 } from '@chakra-ui/react';
-
 import { useRef } from 'react';
+import useSWR from 'swr';
+
 import { useAuth } from '@/lib/auth';
 import { FieldValues, useForm } from 'react-hook-form';
 
 import { createSite } from '@/lib/firestore';
+import fetcher from '@/utils/fetcher';
 
-const AddSiteModal = () => {
+const AddSiteModal = ({ text }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const { mutate } = useSWR('/api/sites', fetcher);
 
   const auth = useAuth();
 
@@ -39,12 +43,13 @@ const AddSiteModal = () => {
     formState: { errors },
   } = useForm();
 
-  const onCreateSite = (data: FieldValues): void => {
-    createSite({
+  const onCreateSite = async (data: FieldValues): void => {
+    const newSite = {
       authorId: auth.user ? auth.user.uid : null,
       createdAt: new Date().toISOString(),
       ...data,
-    });
+    };
+    await createSite(newSite);
     toast({
       title: 'Success!',
       description: "We've added your site.",
@@ -52,13 +57,26 @@ const AddSiteModal = () => {
       duration: 5000,
       isClosable: true,
     });
+    mutate();
     onClose();
   };
 
   return (
     <>
-      <Button size='md' maxW='200px' onClick={onOpen}>
-        Add Your First Site
+      <Button
+        onClick={onOpen}
+        bg='gray.900'
+        color='white'
+        fontWeight='semibold'
+        _hover={{
+          bg: 'gray.700',
+        }}
+        _active={{
+          bg: 'gray.800',
+          transform: 'scale(1.05)',
+        }}
+      >
+        {text}
       </Button>
       <Modal
         initialFocusRef={initialRef}

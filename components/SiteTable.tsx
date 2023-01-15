@@ -1,6 +1,5 @@
 // @ts-nocheck
 
-import React from 'react';
 import Link from 'next/link';
 import { Box } from '@chakra-ui/react';
 import dayjs from 'dayjs';
@@ -22,7 +21,7 @@ const SiteTable = ({ sites }: any) => {
         </thead>
         <tbody>
           {sites.map((site) => (
-            <Box as='tr' key={site.id}>
+            <Box as='tr' key={site.url}>
               <Td fontWeight='semibold'>{site.name}</Td>
               <Td>{site.url}</Td>
               <Td>
