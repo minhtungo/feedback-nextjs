@@ -2,7 +2,8 @@ import Head from 'next/head';
 import { Inter } from '@next/font/google';
 import { useAuth } from '@/lib/auth';
 
-import { Button, Code, Heading, Text } from '@chakra-ui/react';
+import { Flex, Button, Heading, Icon } from '@chakra-ui/react';
+import { MdOutlineFeedback } from 'react-icons/md';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -13,19 +14,29 @@ export default function Home() {
       <Head>
         <title>Feedback</title>
       </Head>
-      <main>
-        <Heading>Feedback</Heading>
-        <Text>
+      <Flex
+        as='main'
+        direction='column'
+        align='center'
+        justify='center'
+        h='100vh'
+      >
+        {/* <Heading>Feedback</Heading> */}
+        <Icon as={MdOutlineFeedback} boxSize={8} />
+        {/* <Text>
           Current User: <Code>{auth.user ? auth.user.email : 'None'}</Code>
-        </Text>
-        <div>
-          {auth.user ? (
-            <Button onClick={() => auth.signout()}>Sign Out</Button>
-          ) : (
-            <Button onClick={() => auth.signInWithGitHub()}>Sign In</Button>
-          )}
-        </div>
-      </main>
+        </Text> */}
+
+        {auth.user ? (
+          <Button size='sm' onClick={() => auth.signout()}>
+            Sign Out
+          </Button>
+        ) : (
+          <Button size='sm' mt={4} onClick={() => auth.signInWithGitHub()}>
+            Sign In
+          </Button>
+        )}
+      </Flex>
     </>
   );
 }
