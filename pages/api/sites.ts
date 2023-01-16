@@ -1,15 +1,17 @@
-import { db } from '@/lib/firebase-admin';
-import { getAllSites } from '@/lib/firestore-admin';
+import { getAuth } from 'firebase-admin/auth';
+import { getUserSites } from '@/lib/firestore-admin';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { sites, error } = await getAllSites();
-  if (error) {
+  try {
+    const { uid } = await getAuth().verifyIdToken(req.headers.token as string);
+    const sites = await getUserSites(uid);
+
+    res.status(200).json(sites);
+  } catch (error) {
     res.status(500).json({ error });
   }
-
-  res.status(200).json({ sites });
 }

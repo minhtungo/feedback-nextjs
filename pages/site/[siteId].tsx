@@ -43,7 +43,6 @@ const SiteFeedback = ({ initialFeedback }) => {
 
   const onCommentSubmit = (e) => {
     e.preventDefault();
-    console.log(user);
 
     const newFeedback = {
       author: user.name,

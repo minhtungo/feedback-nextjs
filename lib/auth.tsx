@@ -34,6 +34,7 @@ const formatUser = (user: User) => {
     name: user.displayName,
     provider: user.providerData[0].providerId,
     photoURL: user.photoURL,
+    token: user.accessToken,
   };
 };
 
@@ -51,8 +52,9 @@ const useProvideAuth = () => {
   const handleUser = (rawUser, isNewUser) => {
     if (rawUser) {
       const user = formatUser(rawUser);
+      const { token, ...userWithoutToken } = user;
       if (isNewUser) {
-        createUser(user.uid, user);
+        createUser(user.uid, userWithoutToken);
       }
       setUser(user);
       return user;
@@ -102,8 +104,9 @@ const useProvideAuth = () => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(formatUser(user));
+        
       } else {
-        setUser(false);
+        setUser(null);
       }
     });
 

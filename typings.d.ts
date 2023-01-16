@@ -11,6 +11,7 @@ interface User {
   photoURL: string;
   displayName?: string;
   providerData?: any;
+  token?: string;
 }
 
 interface Site {

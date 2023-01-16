@@ -21,12 +21,12 @@ const SiteTable = ({ sites }: any) => {
         </thead>
         <tbody>
           {sites.map((site) => (
-            <Box as='tr' key={site.url}>
+            <Box as='tr' key={site.id}>
               <Td fontWeight='semibold'>{site.name}</Td>
               <Td>{site.url}</Td>
               <Td>
                 <Link href={`/site/${site.id}`}>
-                  <ChakraLink>View Feedback</ChakraLink>
+                  <ChakraLink as='span'>View Feedback</ChakraLink>
                 </Link>
               </Td>
               <Td>{dayjs(site.createdAt).format('MMM D, YYYY, h:mm A')}</Td>

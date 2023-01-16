@@ -8,12 +8,22 @@ import fetcher from '@/utils/fetcher';
 import SiteTable from '@/components/table/SiteTable';
 
 export default function Dashboard() {
-  const auth = useAuth();
-  const { data, error, isLoading } = useSWR('/api/sites', fetcher);
+  const { user } = useAuth();
 
-  console.log(error);
+  const { data, isLoading, error } = useSWR(
+    user ? ['/api/sites', user?.token] : null,
+    ([url, token]) => fetcher(url, token)
+  );
 
-  if (!data || isLoading) {
+  if (error) {
+    return (
+      <DashboardShell>
+        <EmptyState />
+      </DashboardShell>
+    );
+  }
+
+  if (!data) {
     return (
       <DashboardShell>
         <SiteTableSkeleton />

@@ -27,9 +27,11 @@ import fetcher from '@/utils/fetcher';
 const AddSiteModal = ({ text }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const { mutate } = useSWR('/api/sites', fetcher);
+  const { user } = useAuth();
 
-  const auth = useAuth();
+  const { mutate } = useSWR(['/api/sites', user?.token], ([url, token]) =>
+    fetcher(url, token)
+  );
 
   const initialRef = useRef(null);
   const finalRef = useRef(null);
@@ -45,7 +47,7 @@ const AddSiteModal = ({ text }) => {
 
   const onCreateSite = async (data: FieldValues): void => {
     const newSite = {
-      authorId: auth.user ? auth.user.uid : null,
+      authorId: user ? user.uid : null,
       createdAt: new Date().toISOString(),
       ...data,
     };
