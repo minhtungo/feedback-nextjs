@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { Box, Link as ChakraLink } from '@chakra-ui/react';
 import dayjs from 'dayjs';
 
-import { Table, Tr, Th, Td } from './Table';
+import { Table, Tr, Th, Td } from '../common/Table';
 
 const SiteTable = ({ sites }: any) => {
   return (

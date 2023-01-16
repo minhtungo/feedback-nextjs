@@ -31,7 +31,11 @@ const Navbar = () => {
           <Link href='/'>
             <Icon as={MdOutlineFeedback} boxSize={6} mr={8} />
           </Link>
-          <ChakraLink mr={4}>Feedback</ChakraLink>
+          <Link href='/feedback'>
+            <ChakraLink mr={4} as='span'>
+              Feedback
+            </ChakraLink>
+          </Link>
           <ChakraLink>Sites</ChakraLink>
         </Flex>
         <Flex justify='center' align='center'>

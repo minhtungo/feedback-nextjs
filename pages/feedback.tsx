@@ -5,30 +5,20 @@ import SiteTableSkeleton from '@/components/site/SiteTableSkeleton';
 import DashboardShell from '@/components/dashboard/DashboardShell';
 import { useAuth } from '@/lib/auth';
 import fetcher from '@/utils/fetcher';
-import SiteTable from '@/components/site/SiteTable';
+import FeedbackTable from '@/components/feedback/FeedbackTable';
 import TableHeader from '@/components/common/TableHeader';
 
-export default function Dashboard() {
+export default function Feedback() {
   const { user } = useAuth();
 
   const { data, isLoading, error } = useSWR(
-    user ? ['/api/sites', user?.token] : null,
+    user ? ['/api/feedback', user?.token] : null,
     ([url, token]) => fetcher(url, token)
   );
-
-  if (error) {
-    return (
-      <DashboardShell>
-        <TableHeader link='sites' title='sites' addModal />
-        <EmptyState />
-      </DashboardShell>
-    );
-  }
 
   if (!data) {
     return (
       <DashboardShell>
-        <TableHeader link='sites' title='sites' addModal />
         <SiteTableSkeleton />
       </DashboardShell>
     );
@@ -36,8 +26,12 @@ export default function Dashboard() {
 
   return (
     <DashboardShell>
-      <TableHeader link='sites' title='sites' addModal />
-      {data.sites ? <SiteTable sites={data.sites} /> : <EmptyState />}
+      <TableHeader link='Feedback' title='My Feedback' />
+      {data.feedback ? (
+        <FeedbackTable allFeedback={data.feedback} />
+      ) : (
+        <EmptyState />
+      )}
     </DashboardShell>
   );
 }

@@ -50,3 +50,16 @@ export async function getUserSites(userId) {
 
   return { sites };
 }
+
+export async function getUserFeedback(userId) {
+  const snapshot = await db
+    .collection('feedbacks')
+    .where('authorId', '==', userId)
+    .get();
+  const feedback = snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+
+  return { feedback };
+}

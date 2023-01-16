@@ -1,5 +1,5 @@
 import { Box, Skeleton } from '@chakra-ui/react';
-import { Table, Tr, Th, Td } from './Table';
+import { Table, Tr, Th, Td } from '../common/Table';
 4;
 interface SkeletonRowProps {
   width: string;
