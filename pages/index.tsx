@@ -14,6 +14,15 @@ export default function Home() {
   return (
     <>
       <Head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+          if (document.cookie && document.cookie.includes('authed')) {
+            window.location.href = "/dashboard"
+          }
+        `,
+          }}
+        />
         <meta name='viewport' content='width=device-width, initial-scale=1' />
         <title>Feedback</title>
       </Head>

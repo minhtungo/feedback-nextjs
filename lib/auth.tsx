@@ -11,6 +11,7 @@ import {
 } from 'firebase/auth';
 import { createUser } from './firestore';
 import { auth } from './firebase';
+import Cookies from 'js-cookie';
 
 const AuthContext = createContext({
   user: null,
@@ -49,7 +50,7 @@ const useProvideAuth = () => {
 
   const provider = new GithubAuthProvider();
 
-  const handleUser = (rawUser, isNewUser) => {
+  const handleUser = (rawUser, isNewUser = false) => {
     if (rawUser) {
       const user = formatUser(rawUser);
       const { token, ...userWithoutToken } = user;
@@ -57,10 +58,12 @@ const useProvideAuth = () => {
         createUser(user.uid, userWithoutToken);
       }
       setUser(user);
+      Cookies.set('authed', true, { expires: 3 });
       return user;
     } else {
-      setUser(false);
-      return false;
+      setUser(null);
+      Cookies.remove('authed');
+      return null;
     }
   };
 
@@ -93,7 +96,7 @@ const useProvideAuth = () => {
 
     return signOut(auth)
       .then(() => {
-        setUser(false);
+        setUser(null);
       })
       .catch((error) => {
         // An error happened.
@@ -103,8 +106,8 @@ const useProvideAuth = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setUser(formatUser(user));
-        
+        handleUser(user);
+        setLoading(false);
       } else {
         setUser(null);
       }
