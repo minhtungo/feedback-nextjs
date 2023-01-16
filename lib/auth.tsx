@@ -101,7 +101,7 @@ const useProvideAuth = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setUser(user);
+        setUser(formatUser(user));
       } else {
         setUser(false);
       }

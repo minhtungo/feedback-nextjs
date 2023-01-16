@@ -1,15 +1,17 @@
 import useSWR from 'swr';
 
-import EmptyState from '@/components/EmptyState';
-import SiteTableSkeleton from '@/components/SiteTableSkeleton';
-import DashboardShell from '@/components/DashboardShell';
+import EmptyState from '@/components/dashboard/EmptyState';
+import SiteTableSkeleton from '@/components/table/SiteTableSkeleton';
+import DashboardShell from '@/components/dashboard/DashboardShell';
 import { useAuth } from '@/lib/auth';
 import fetcher from '@/utils/fetcher';
-import SiteTable from '@/components/SiteTable';
+import SiteTable from '@/components/table/SiteTable';
 
 export default function Dashboard() {
   const auth = useAuth();
   const { data, error, isLoading } = useSWR('/api/sites', fetcher);
+
+  console.log(error);
 
   if (!data || isLoading) {
     return (

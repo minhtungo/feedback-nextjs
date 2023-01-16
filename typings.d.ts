@@ -12,3 +12,21 @@ interface User {
   displayName?: string;
   providerData?: any;
 }
+
+interface Site {
+  authorId: string;
+  createdAt: number;
+  name: string;
+  url: string;
+}
+
+interface Feedback {
+  author: string;
+  authorId: string;
+  createdAt: string;
+  provider: string;
+  rating: number;
+  siteId: string;
+  status: string;
+  text: string;
+}

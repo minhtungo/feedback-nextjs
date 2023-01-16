@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 import Link from 'next/link';
-import { Box } from '@chakra-ui/react';
+import { Box, Link as ChakraLink } from '@chakra-ui/react';
 import dayjs from 'dayjs';
 
 import { Table, Tr, Th, Td } from './Table';
@@ -25,7 +25,9 @@ const SiteTable = ({ sites }: any) => {
               <Td fontWeight='semibold'>{site.name}</Td>
               <Td>{site.url}</Td>
               <Td>
-                <Link href='/'>View Feedback</Link>
+                <Link href={`/site/${site.id}`}>
+                  <ChakraLink>View Feedback</ChakraLink>
+                </Link>
               </Td>
               <Td>{dayjs(site.createdAt).format('MMM D, YYYY, h:mm A')}</Td>
             </Box>

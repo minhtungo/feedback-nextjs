@@ -1,15 +1,16 @@
-import { db } from '@/lib/firebase-admin';
-import { getAllSites } from '@/lib/firestore-admin';
+import { getAllFeedback } from '@/lib/firestore-admin';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { sites, error } = await getAllSites();
+  const siteId = req.query.siteId;
+  const { feedback, error } = await getAllFeedback(siteId);
+
   if (error) {
     res.status(500).json({ error });
   }
 
-  res.status(200).json({ sites });
+  res.status(200).json({ feedback });
 }
