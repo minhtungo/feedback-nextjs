@@ -30,7 +30,7 @@ export async function getStaticPaths() {
 
   return {
     paths,
-    fallback: false, // can also be true or 'blocking'
+    fallback: true, // can also be true or 'blocking'
   };
 }
 
@@ -79,14 +79,21 @@ const SiteFeedback = ({ initialFeedback }) => {
             bg='white'
             onChange={(e) => setInput(e.target.value)}
           />
-          <Button mt={2} type='submit' fontWeight='semibold' colorScheme='gray'>
+          <Button
+            mt={2}
+            type='submit'
+            fontWeight='semibold'
+            colorScheme='gray'
+            isDisabled={router.isFallback}
+          >
             Add Comment
           </Button>
         </FormControl>
       </Box>
-      {allFeedback.map((feedback) => (
-        <Feedback key={feedback.id} {...feedback} />
-      ))}
+      {allFeedback &&
+        allFeedback.map((feedback) => (
+          <Feedback key={feedback.id} {...feedback} />
+        ))}
     </Box>
   );
 };

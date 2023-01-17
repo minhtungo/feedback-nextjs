@@ -42,9 +42,9 @@ const Navbar = () => {
         </Flex>
         <Flex justify='center' align='center'>
           {user && (
-            <Button variant='ghost' mr={2} onClick={() => signOutUser()}>
-              Log Out
-            </Button>
+            <Link href='/account'>
+              <ChakraLink as='span' mr={4}>Account</ChakraLink>
+            </Link>
           )}
           <Avatar size='sm' src={user?.photoURL} />
         </Flex>

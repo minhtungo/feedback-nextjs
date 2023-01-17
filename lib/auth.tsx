@@ -62,7 +62,6 @@ const useProvideAuth = () => {
       Cookies.set('authed', true, { expires: 3 });
       return user;
     } else {
-      router.push('/');
       setUser(null);
       Cookies.remove('authed');
       return null;
@@ -96,6 +95,7 @@ const useProvideAuth = () => {
 
   const signOutUser = async () => {
     await signOut(auth);
+    router.push('/');
     handleUser(null);
   };
 

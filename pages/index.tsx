@@ -3,12 +3,21 @@ import { FiGithub } from 'react-icons/fi';
 import { FcGoogle } from 'react-icons/fc';
 import { Flex, Button, Icon, Stack } from '@chakra-ui/react';
 import Link from 'next/link';
-
-import { Inter } from '@next/font/google';
-import { useAuth } from '@/lib/auth';
 import { MdOutlineFeedback } from 'react-icons/md';
 
-const inter = Inter({ subsets: ['latin'] });
+import { useAuth } from '@/lib/auth';
+import { getAllFeedback } from '@/lib/firestore-admin';
+
+// export async function getStaticProps() {
+//   const { feedback } = await getAllFeedback('1234567890');
+
+//   return {
+//     props: {
+//       allFeedback: feedback || [],
+//     },
+//     revalidate: 60,
+//   };
+// }
 
 export default function Home() {
   const auth = useAuth();
@@ -35,12 +44,7 @@ export default function Home() {
         justify='center'
         h='100vh'
       >
-        {/* <Heading>Feedback</Heading> */}
         <Icon as={MdOutlineFeedback} boxSize={10} />
-        {/* <Text>
-          Current User: <Code>{auth.user ? auth.user.email : 'None'}</Code>
-        </Text> */}
-
         {auth.user ? (
           <>
             <Link href='/dashboard'>
