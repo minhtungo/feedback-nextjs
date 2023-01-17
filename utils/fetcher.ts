@@ -1,7 +1,6 @@
 // @ts-nocheck
 
 const fetcher = async (url, token, method = 'GET') => {
-  console.log(token);
   if (!token) return;
   const res = await fetch(url, {
     method,
@@ -12,7 +11,6 @@ const fetcher = async (url, token, method = 'GET') => {
   if (res.ok) {
     return res.json();
   }
-  console.log(res.statusText);
   // throw new Error(res.statusText);
 };
 

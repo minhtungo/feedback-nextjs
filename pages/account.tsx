@@ -8,11 +8,18 @@ import Usage from '@/components/account/Usage';
 import fetcher from '@/utils/fetcher';
 
 const Account = () => {
-  const { user, signOutUser } = useAuth();
+  const { user, setUser, signOutUser } = useAuth();
 
   const onSignUpPlan = async () => {
-    const response = await fetcher('/api/user/upgrade-plan', user?.token, 'PUT');
-    console.log(response);
+    const response = await fetcher(
+      '/api/user/upgrade-plan',
+      user?.token,
+      'PUT'
+    );
+
+    setUser((currentUser: User) =>
+      currentUser ? { ...currentUser, plan: response.plan } : null
+    );
   };
 
   return (

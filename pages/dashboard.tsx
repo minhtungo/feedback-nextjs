@@ -47,7 +47,7 @@ export default function Dashboard() {
   return (
     <DashboardShell>
       <TableHeader link='sites' title='sites' addModal />
-      {user?.role > 0 ? <EmptyState /> : <UpgradeEmptyState />}
+      {user?.plan !== 'free' ? <EmptyState /> : <UpgradeEmptyState />}
     </DashboardShell>
   );
 }

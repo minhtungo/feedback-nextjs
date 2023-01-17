@@ -68,5 +68,5 @@ export const signUpForPlan = async (uid: string) => {
   const userRef = await db.collection('users').where('uid', '==', uid).get();
   const user = userRef.docs[0];
   await user.ref.update({ plan: 'trial' });
-  return user;
+  return user.data();
 };

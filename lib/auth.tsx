@@ -38,6 +38,7 @@ const formatUser = (user: User) => {
     provider: user.providerData[0].providerId,
     photoURL: user.photoURL,
     token: user.accessToken,
+    plan: user.plan || 'free',
   };
 };
 
@@ -116,6 +117,7 @@ const useProvideAuth = () => {
 
   return {
     user,
+    setUser,
     loading,
     signInWithGitHub,
     signInWithGoogle,
