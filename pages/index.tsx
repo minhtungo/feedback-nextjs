@@ -62,7 +62,7 @@ export default function Home() {
                 View Dashboard
               </Button>
             </Link>
-            <Button size='sm' onClick={() => auth.signout()}>
+            <Button size='sm' onClick={() => auth.signOutUser()}>
               Sign Out
             </Button>
           </>

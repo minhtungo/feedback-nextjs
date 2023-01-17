@@ -29,7 +29,7 @@ const AddSiteModal = ({ text }) => {
 
   const { user } = useAuth();
 
-  const { mutate } = useSWR(['/api/sites', user?.token], ([url, token]) =>
+  const { data, mutate } = useSWR(['/api/sites', user?.token], ([url, token]) =>
     fetcher(url, token)
   );
 
@@ -41,17 +41,18 @@ const AddSiteModal = ({ text }) => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
 
-  const onCreateSite = async (data: FieldValues): void => {
+  const onCreateSite = async ({ name, url }: FieldValues): void => {
     const newSite = {
       authorId: user ? user.uid : null,
       createdAt: new Date().toISOString(),
-      ...data,
+      name,
+      url,
     };
-    await createSite(newSite);
+    const { id: newSiteId } = await createSite(newSite);
+
     toast({
       title: 'Success!',
       description: "We've added your site.",
@@ -59,7 +60,8 @@ const AddSiteModal = ({ text }) => {
       duration: 5000,
       isClosable: true,
     });
-    mutate();
+
+    mutate({ sites: [{ id: newSiteId, ...newSite }, ...data.sites] });
     onClose();
   };
 

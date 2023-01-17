@@ -34,8 +34,6 @@ export default function Dashboard() {
     );
   }
 
-  console.log(data);
-
   return (
     <DashboardShell>
       <TableHeader link='sites' title='sites' addModal />

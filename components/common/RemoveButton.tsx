@@ -19,7 +19,7 @@ import fetcher from '@/utils/fetcher';
 
 const RemoveButton = ({ feedbackId }: { feedbackId: string }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const cancelRef = useRef();
+  const cancelRef = useRef<HTMLDivElement>(null);
 
   const { user } = useAuth();
 
@@ -54,7 +54,7 @@ const RemoveButton = ({ feedbackId }: { feedbackId: string }) => {
             </AlertDialogHeader>
 
             <AlertDialogBody>
-              Are you sure? You can't undo this action afterwards.
+              {`Are you sure? You can't undo this action afterwards.`}
             </AlertDialogBody>
 
             <AlertDialogFooter>

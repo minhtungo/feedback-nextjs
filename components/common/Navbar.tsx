@@ -13,7 +13,7 @@ import Link from 'next/link';
 import { useAuth } from '@/lib/auth';
 
 const Navbar = () => {
-  const { user, signout } = useAuth();
+  const { user, signOutUser } = useAuth();
 
   return (
     <Flex bg='white' mb={[8, 16]} w='full'>
@@ -42,7 +42,7 @@ const Navbar = () => {
         </Flex>
         <Flex justify='center' align='center'>
           {user && (
-            <Button variant='ghost' mr={2} onClick={() => signout()}>
+            <Button variant='ghost' mr={2} onClick={() => signOutUser()}>
               Log Out
             </Button>
           )}

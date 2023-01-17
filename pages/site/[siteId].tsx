@@ -42,7 +42,7 @@ const SiteFeedback = ({ initialFeedback }) => {
   const [input, setInput] = useState('');
   const [allFeedback, setAllFeedback] = useState(initialFeedback);
 
-  const onCommentSubmit = (e) => {
+  const onCommentSubmit = async (e) => {
     e.preventDefault();
 
     const newFeedback = {
@@ -54,8 +54,9 @@ const SiteFeedback = ({ initialFeedback }) => {
       provider: user.provider,
       status: 'pending',
     };
-    setAllFeedback([newFeedback, ...allFeedback]);
-    createFeedback(newFeedback);
+
+    const { id: newFeedbackId } = await createFeedback(newFeedback);
+    setAllFeedback([{ id: newFeedbackId, ...newFeedback }, ...allFeedback]);
     setInput('');
   };
 
@@ -73,10 +74,12 @@ const SiteFeedback = ({ initialFeedback }) => {
           <Input
             type='comment'
             id='comment'
+            placeholder='Leave a comment'
             value={input}
+            bg='white'
             onChange={(e) => setInput(e.target.value)}
           />
-          <Button mt={2} type='submit' fontWeight='semibold'>
+          <Button mt={2} type='submit' fontWeight='semibold' colorScheme='gray'>
             Add Comment
           </Button>
         </FormControl>

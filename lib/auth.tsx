@@ -1,7 +1,7 @@
 // @ts-nocheck
 
 import { useState, useEffect, useContext, createContext } from 'react';
-import Router from 'next/router';
+import { useRouter } from 'next/router';
 import {
   GithubAuthProvider,
   GoogleAuthProvider,
@@ -19,7 +19,7 @@ const AuthContext = createContext({
   loading: false,
   signInWithGitHub: () => {},
   signInWithGoogle: () => {},
-  signout: () => {},
+  signOutUser: () => {},
 });
 
 interface AuthProviderProps {
@@ -49,6 +49,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 const useProvideAuth = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   const handleUser = (rawUser, isNewUser = false) => {
     if (rawUser) {
@@ -61,54 +62,41 @@ const useProvideAuth = () => {
       Cookies.set('authed', true, { expires: 3 });
       return user;
     } else {
+      router.push('/');
       setUser(null);
       Cookies.remove('authed');
       return null;
     }
   };
 
-  const signInWithGitHub = async (redirect: string) => {
-    setLoading(true);
+  const signInWithGitHub = async () => {
+    router.push('/dashboard');
+
     try {
       const result = await signInWithPopup(auth, new GithubAuthProvider());
       const { isNewUser } = getAdditionalUserInfo(result);
       handleUser(result.user, isNewUser);
       setLoading(false);
-
-      if (redirect) {
-        Router.push(redirect);
-      }
     } catch (error) {
       console.log(error);
     }
   };
 
-  const signInWithGoogle = async (redirect: string) => {
-    setLoading(true);
+  const signInWithGoogle = async () => {
+    router.push('/dashboard');
     try {
       const result = await signInWithPopup(auth, new GoogleAuthProvider());
       const { isNewUser } = getAdditionalUserInfo(result);
       handleUser(result.user, isNewUser);
       setLoading(false);
-
-      if (redirect) {
-        Router.push(redirect);
-      }
     } catch (error) {
       console.log(error);
     }
   };
 
-  const signout = () => {
-    Router.push('/');
-
-    return signOut(auth)
-      .then(() => {
-        handleUser(null);
-      })
-      .catch((error) => {
-        // An error happened.
-      });
+  const signOutUser = async () => {
+    await signOut(auth);
+    handleUser(null);
   };
 
   useEffect(() => {
@@ -129,6 +117,6 @@ const useProvideAuth = () => {
     loading,
     signInWithGitHub,
     signInWithGoogle,
-    signout,
+    signOutUser,
   };
 };
