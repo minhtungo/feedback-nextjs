@@ -8,7 +8,7 @@ interface DashboardShellTypes {
 
 const DashboardShell = ({ children }: DashboardShellTypes) => {
   return (
-    <Box bg='gray.100' h='100vh'>
+    <Box h='100vh'>
       <Flex
         maxW='1250px'
         w='full'

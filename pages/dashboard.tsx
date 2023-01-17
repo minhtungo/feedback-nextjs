@@ -7,6 +7,7 @@ import { useAuth } from '@/lib/auth';
 import fetcher from '@/utils/fetcher';
 import SiteTable from '@/components/site/SiteTable';
 import TableHeader from '@/components/common/TableHeader';
+import UpgradeEmptyState from '@/components/dashboard/UpgradeEmptyState';
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -34,14 +35,19 @@ export default function Dashboard() {
     );
   }
 
+  if (data.sites && data.sites.length > 0) {
+    return (
+      <DashboardShell>
+        <TableHeader link='sites' title='sites' addModal />
+        <SiteTable sites={data.sites} />
+      </DashboardShell>
+    );
+  }
+
   return (
     <DashboardShell>
       <TableHeader link='sites' title='sites' addModal />
-      {data.sites && data.sites.length > 0 ? (
-        <SiteTable sites={data.sites} />
-      ) : (
-        <EmptyState />
-      )}
+      {user?.role > 0 ? <EmptyState /> : <UpgradeEmptyState />}
     </DashboardShell>
   );
 }

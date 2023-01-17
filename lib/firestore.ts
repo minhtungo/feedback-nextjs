@@ -1,12 +1,11 @@
 import { db } from './firebase';
 import { collection, addDoc, deleteDoc, doc, setDoc } from 'firebase/firestore';
 
-export const createUser = async (uid, data) => {
-  const userRef = await addDoc(collection(db, 'users'), {
-    uid,
-    ...data,
-  });
-  return userRef;
+export const createUser = async (uid: string, data: User) => {
+  const newUserRef = doc(collection(db, 'users'));
+
+  await setDoc(newUserRef, data);
+  return newUserRef;
 };
 
 export const createSite = async (data: Site) => {

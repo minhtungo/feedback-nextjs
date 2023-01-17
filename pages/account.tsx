@@ -5,9 +5,15 @@ import { useAuth } from '@/lib/auth';
 import DashboardShell from '@/components/dashboard/DashboardShell';
 import AccountTable from '@/components/account/AccountTable';
 import Usage from '@/components/account/Usage';
+import fetcher from '@/utils/fetcher';
 
 const Account = () => {
   const { user, signOutUser } = useAuth();
+
+  const onSignUpPlan = async () => {
+    const response = await fetcher('/api/user/upgrade-plan', user?.token, 'PUT');
+    console.log(response);
+  };
 
   return (
     <DashboardShell>
@@ -36,9 +42,12 @@ const Account = () => {
             in odit?
           </Text>
           <Flex justify='flex-end'>
+            <Button variant='ghost' ml={4} onClick={() => signOutUser()}>
+              Log Out
+            </Button>
             <Button
               ml={4}
-              onClick={() => signOutUser()}
+              onClick={() => onSignUpPlan()}
               backgroundColor='gray.900'
               color='white'
               fontWeight='semibold'
@@ -50,7 +59,7 @@ const Account = () => {
                 transform: 'scale(1.05)',
               }}
             >
-              Log Out
+              Free Trial
             </Button>
           </Flex>
         </AccountTable>

@@ -2,7 +2,7 @@
 
 import { db } from './firebase-admin';
 
-export async function getAllFeedback(siteId) {
+export const getAllFeedback = async (siteId) => {
   try {
     const snapshot = await db
       .collection('feedbacks')
@@ -20,9 +20,9 @@ export async function getAllFeedback(siteId) {
   } catch (error) {
     return { error };
   }
-}
+};
 
-export async function getAllSites() {
+export const getAllSites = async () => {
   try {
     const snapshot = await db.collection('sites').get();
 
@@ -35,9 +35,9 @@ export async function getAllSites() {
   } catch (error) {
     return { error };
   }
-}
+};
 
-export async function getUserSites(userId) {
+export const getUserSites = async (userId) => {
   const snapshot = await db
     .collection('sites')
     .where('authorId', '==', userId)
@@ -49,9 +49,9 @@ export async function getUserSites(userId) {
   }));
 
   return { sites };
-}
+};
 
-export async function getUserFeedback(userId) {
+export const getUserFeedback = async (userId) => {
   const snapshot = await db
     .collection('feedbacks')
     .where('authorId', '==', userId)
@@ -62,4 +62,11 @@ export async function getUserFeedback(userId) {
   }));
 
   return { feedback };
-}
+};
+
+export const signUpForPlan = async (uid: string) => {
+  const userRef = await db.collection('users').where('uid', '==', uid).get();
+  const user = userRef.docs[0];
+  await user.ref.update({ plan: 'trial' });
+  return user;
+};

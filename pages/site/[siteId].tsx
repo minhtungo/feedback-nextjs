@@ -47,7 +47,7 @@ const SiteFeedback = ({ initialFeedback }) => {
 
     const newFeedback = {
       author: user.name,
-      authorId: user.uid,
+      authorId: user.id,
       siteId: router.query.siteId,
       text: input,
       createdAt: new Date().toISOString(),

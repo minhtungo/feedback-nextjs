@@ -55,6 +55,7 @@ const useProvideAuth = () => {
     if (rawUser) {
       const user = formatUser(rawUser);
       const { token, ...userWithoutToken } = user;
+
       if (isNewUser) {
         createUser(user.uid, userWithoutToken);
       }
@@ -74,6 +75,7 @@ const useProvideAuth = () => {
     try {
       const result = await signInWithPopup(auth, new GithubAuthProvider());
       const { isNewUser } = getAdditionalUserInfo(result);
+
       handleUser(result.user, isNewUser);
       setLoading(false);
     } catch (error) {
