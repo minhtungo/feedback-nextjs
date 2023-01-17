@@ -6,6 +6,7 @@ export const theme = extendTheme({
       html: {
         minWidth: '360px',
         scrollBehavior: 'smooth',
+        backgroundColor: 'gray.50',
       },
     },
   },

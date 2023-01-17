@@ -9,7 +9,7 @@ interface DashboardShellTypes {
 
 const DashboardShell = ({ children }: DashboardShellTypes) => {
   return (
-    <Box bg='gray.50' h='100vh'>
+    <Box bg='gray.100' h='100vh'>
       <Navbar />
       <Flex
         maxW='1250px'

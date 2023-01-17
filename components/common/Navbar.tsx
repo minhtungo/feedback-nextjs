@@ -31,12 +31,14 @@ const Navbar = () => {
           <Link href='/'>
             <Icon as={MdOutlineFeedback} boxSize={6} mr={8} />
           </Link>
-          <Link href='/feedback'>
-            <ChakraLink mr={4} as='span'>
-              Feedback
+          <Link href='/dashboard'>
+            <ChakraLink as='span' mr={4}>
+              Sites
             </ChakraLink>
           </Link>
-          <ChakraLink>Sites</ChakraLink>
+          <Link href='/feedback'>
+            <ChakraLink as='span'>Feedback</ChakraLink>
+          </Link>
         </Flex>
         <Flex justify='center' align='center'>
           {user && (

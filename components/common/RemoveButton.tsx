@@ -12,13 +12,24 @@ import {
 } from '@chakra-ui/react';
 import { useRef } from 'react';
 import { MdDelete } from 'react-icons/md';
+import useSWR from 'swr';
+
+import { useAuth } from '@/lib/auth';
+import fetcher from '@/utils/fetcher';
 
 const RemoveButton = ({ feedbackId }: { feedbackId: string }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const cancelRef = useRef();
 
-  const onDeleteFeedback = () => {
-    deleteFeedback(feedbackId);
+  const { user } = useAuth();
+
+  const { mutate } = useSWR(['/api/feedback', user?.token], ([url, token]) =>
+    fetcher(url, token)
+  );
+
+  const onDeleteFeedback = async () => {
+    await deleteFeedback(feedbackId);
+    mutate();
     onClose();
   };
 

@@ -34,10 +34,16 @@ export default function Dashboard() {
     );
   }
 
+  console.log(data);
+
   return (
     <DashboardShell>
       <TableHeader link='sites' title='sites' addModal />
-      {data.sites ? <SiteTable sites={data.sites} /> : <EmptyState />}
+      {data.sites && data.sites.length > 0 ? (
+        <SiteTable sites={data.sites} />
+      ) : (
+        <EmptyState />
+      )}
     </DashboardShell>
   );
 }

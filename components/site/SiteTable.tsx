@@ -16,7 +16,7 @@ const SiteTable = ({ sites }: any) => {
             <Th>Site Link</Th>
             <Th>Feedback Link</Th>
             <Th>Date Added</Th>
-            <Th width='75px'>{''}</Th>
+            <Th width='50px'>{''}</Th>
           </Tr>
         </thead>
         <tbody>
@@ -26,7 +26,7 @@ const SiteTable = ({ sites }: any) => {
               <Td>{site.url}</Td>
               <Td>
                 <Link href={`/site/${site.id}`}>
-                  <ChakraLink as='span'>View Feedback</ChakraLink>
+                  <ChakraLink as='span' color='blue.500' fontWeight='semibold'>View Feedback</ChakraLink>
                 </Link>
               </Td>
               <Td>{dayjs(site.createdAt).format('MMM D, YYYY, h:mm A')}</Td>

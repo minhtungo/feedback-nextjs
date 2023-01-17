@@ -4,6 +4,7 @@ import { useState, useEffect, useContext, createContext } from 'react';
 import Router from 'next/router';
 import {
   GithubAuthProvider,
+  GoogleAuthProvider,
   signInWithPopup,
   onAuthStateChanged,
   signOut,
@@ -17,6 +18,7 @@ const AuthContext = createContext({
   user: null,
   loading: false,
   signInWithGitHub: () => {},
+  signInWithGoogle: () => {},
   signout: () => {},
 });
 
@@ -48,8 +50,6 @@ const useProvideAuth = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const provider = new GithubAuthProvider();
-
   const handleUser = (rawUser, isNewUser = false) => {
     if (rawUser) {
       const user = formatUser(rawUser);
@@ -69,9 +69,8 @@ const useProvideAuth = () => {
 
   const signInWithGitHub = async (redirect: string) => {
     setLoading(true);
-
     try {
-      const result = await signInWithPopup(auth, provider);
+      const result = await signInWithPopup(auth, new GithubAuthProvider());
       const { isNewUser } = getAdditionalUserInfo(result);
       handleUser(result.user, isNewUser);
       setLoading(false);
@@ -81,13 +80,22 @@ const useProvideAuth = () => {
       }
     } catch (error) {
       console.log(error);
-      // const errorCode = error.code;
-      // const errorMessage = error.message;
-      // // The email of the user's account used.
-      // const email = error.customData.email;
-      // // The AuthCredential type that was used.
-      // const credential = GithubAuthProvider.credentialFromError(error);
-      // ...
+    }
+  };
+
+  const signInWithGoogle = async (redirect: string) => {
+    setLoading(true);
+    try {
+      const result = await signInWithPopup(auth, new GoogleAuthProvider());
+      const { isNewUser } = getAdditionalUserInfo(result);
+      handleUser(result.user, isNewUser);
+      setLoading(false);
+
+      if (redirect) {
+        Router.push(redirect);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -96,7 +104,7 @@ const useProvideAuth = () => {
 
     return signOut(auth)
       .then(() => {
-        setUser(null);
+        handleUser(null);
       })
       .catch((error) => {
         // An error happened.
@@ -120,6 +128,7 @@ const useProvideAuth = () => {
     user,
     loading,
     signInWithGitHub,
+    signInWithGoogle,
     signout,
   };
 };

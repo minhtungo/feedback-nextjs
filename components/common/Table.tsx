@@ -26,7 +26,7 @@ export const Td = (props: any) => (
 export const Tr = (props: any) => (
   <Box
     as='tr'
-    backgroundColor='gray.50'
+    bg='gray.50'
     borderTopLeftRadius={8}
     borderTopRightRadius={8}
     borderBottom='1px solid'
@@ -41,7 +41,7 @@ export const Table = (props: any) => {
     <Box
       as='table'
       textAlign='left'
-      backgroundColor='white'
+      bg='white'
       ml={0}
       mr={0}
       borderRadius={8}
