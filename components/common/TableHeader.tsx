@@ -5,28 +5,46 @@ import {
   Flex,
   Heading,
 } from '@chakra-ui/react';
+import Link from 'next/link';
 import React from 'react';
 import AddSiteModal from '../dashboard/AddSiteModal';
 
 interface TableHeaderProps {
-  link: string;
-  title: string;
+  subtitle?: string;
+  title?: string;
+  siteName?: string;
   addModal?: boolean;
 }
 
-const TableHeader = ({ link, title, addModal = false }: TableHeaderProps) => {
+const TableHeader = ({
+  subtitle,
+  title,
+  addModal = false,
+  siteName,
+}: TableHeaderProps) => {
   return (
     <>
       <Breadcrumb>
-        <BreadcrumbItem isCurrentPage>
+        <BreadcrumbItem isCurrentPage={!siteName}>
           <BreadcrumbLink
             color='gray.700'
             fontSize='sm'
             textTransform='capitalize'
           >
-            {link}
+            <Link href={`/${subtitle.toLowerCase()}`}>{subtitle}</Link>
           </BreadcrumbLink>
         </BreadcrumbItem>
+        {siteName && (
+          <BreadcrumbItem isCurrentPage>
+            <BreadcrumbLink
+              color='gray.700'
+              fontSize='sm'
+              textTransform='capitalize'
+            >
+              {siteName}
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+        )}
       </Breadcrumb>
       <Flex justify='space-between' align='center' textTransform='capitalize'>
         <Heading mb={4}>{title}</Heading>

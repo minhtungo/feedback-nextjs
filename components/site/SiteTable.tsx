@@ -22,10 +22,16 @@ const SiteTable = ({ sites }: any) => {
         <tbody>
           {sites.map((site) => (
             <Box as='tr' key={site.id}>
-              <Td fontWeight='semibold'>{site.name}</Td>
-              <Td>{site.url}</Td>
               <Td>
                 <Link href={`/site/${site.id}`}>
+                  <ChakraLink as='span' fontWeight='semibold'>
+                    {site.name}
+                  </ChakraLink>
+                </Link>
+              </Td>
+              <Td>{site.url}</Td>
+              <Td>
+                <Link href={`/feedback/${site.id}`}>
                   <ChakraLink as='span' color='blue.500' fontWeight='semibold'>
                     View Feedback
                   </ChakraLink>

@@ -10,8 +10,7 @@ import TableHeader from '@/components/common/TableHeader';
 
 export default function Feedback() {
   const { user } = useAuth();
-
-  const { data, isLoading, error } = useSWR(
+  const { data } = useSWR(
     user ? ['/api/feedback', user?.token] : null,
     ([url, token]) => fetcher(url, token)
   );
@@ -19,6 +18,7 @@ export default function Feedback() {
   if (!data) {
     return (
       <DashboardShell>
+        <TableHeader subtitle='Feedback' title='All Feedback' />
         <SiteTableSkeleton />
       </DashboardShell>
     );
@@ -26,7 +26,7 @@ export default function Feedback() {
 
   return (
     <DashboardShell>
-      <TableHeader link='Feedback' title='My Feedback' />
+      <TableHeader subtitle='Feedback' title='All Feedback' />
       {data.feedback ? (
         <FeedbackTable allFeedback={data.feedback} />
       ) : (

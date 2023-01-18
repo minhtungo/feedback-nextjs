@@ -8,6 +8,7 @@ import fetcher from '@/utils/fetcher';
 import SiteTable from '@/components/site/SiteTable';
 import TableHeader from '@/components/common/TableHeader';
 import UpgradeEmptyState from '@/components/dashboard/UpgradeEmptyState';
+import { tableHeaderConfig } from '@/configs/propConfigs';
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -20,7 +21,7 @@ export default function Dashboard() {
   if (error) {
     return (
       <DashboardShell>
-        <TableHeader link='sites' title='sites' addModal />
+        <TableHeader {...tableHeaderConfig} />
         <EmptyState />
       </DashboardShell>
     );
@@ -29,7 +30,7 @@ export default function Dashboard() {
   if (!data) {
     return (
       <DashboardShell>
-        <TableHeader link='sites' title='sites' addModal />
+        <TableHeader {...tableHeaderConfig} />
         <SiteTableSkeleton />
       </DashboardShell>
     );
@@ -38,7 +39,7 @@ export default function Dashboard() {
   if (data.sites && data.sites.length > 0) {
     return (
       <DashboardShell>
-        <TableHeader link='sites' title='sites' addModal />
+        <TableHeader {...tableHeaderConfig} />
         <SiteTable sites={data.sites} />
       </DashboardShell>
     );
@@ -46,7 +47,7 @@ export default function Dashboard() {
 
   return (
     <DashboardShell>
-      <TableHeader link='sites' title='sites' addModal />
+      <TableHeader {...tableHeaderConfig} />
       {user?.plan !== 'free' ? <EmptyState /> : <UpgradeEmptyState />}
     </DashboardShell>
   );

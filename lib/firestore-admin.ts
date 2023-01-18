@@ -37,6 +37,21 @@ export const getAllSites = async () => {
   }
 };
 
+export const getSite = async (siteId) => {
+  try {
+    const snapshot = await db.collection('sites').doc(siteId).get();
+
+    const site = {
+      id: snapshot.id,
+      ...snapshot.data(),
+    };
+
+    return { site };
+  } catch (error) {
+    return { error };
+  }
+};
+
 export const getUserSites = async (userId) => {
   const snapshot = await db
     .collection('sites')
