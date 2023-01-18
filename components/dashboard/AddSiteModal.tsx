@@ -15,7 +15,7 @@ import {
   Input,
   useToast,
 } from '@chakra-ui/react';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import useSWR from 'swr';
 
 import { useAuth } from '@/lib/auth';
@@ -26,17 +26,16 @@ import fetcher from '@/utils/fetcher';
 import StyledButton from '../common/StyledButton';
 
 const AddSiteModal = ({ text }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const [isLoading, setIsLoading] = useState(false)
   const { user } = useAuth();
 
   const { data, mutate } = useSWR(['/api/sites', user?.token], ([url, token]) =>
     fetcher(url, token)
   );
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const initialRef = useRef(null);
   const finalRef = useRef(null);
-
   const toast = useToast();
 
   const {
@@ -46,6 +45,7 @@ const AddSiteModal = ({ text }) => {
   } = useForm();
 
   const onCreateSite = async ({ name, url }: FieldValues): void => {
+    setIsLoading(true)
     const newSite = {
       authorId: user ? user.uid : null,
       createdAt: new Date().toISOString(),
@@ -63,16 +63,13 @@ const AddSiteModal = ({ text }) => {
     });
 
     mutate({ sites: [{ id: newSiteId, ...newSite }, ...data.sites] });
+    setIsLoading(false)
     onClose();
   };
 
   return (
     <>
-      <StyledButton
-        onClick={onOpen}
-      >
-        {text}
-      </StyledButton>
+      <StyledButton onClick={onOpen}>{text}</StyledButton>
       <Modal
         initialFocusRef={initialRef}
         finalFocusRef={finalRef}
@@ -113,7 +110,7 @@ const AddSiteModal = ({ text }) => {
             <Button onClick={onClose} mr={3} fontWeight='medium'>
               Cancel
             </Button>{' '}
-            <Button colorScheme='blue' mr={3} fontWeight='medium' type='submit'>
+            <Button colorScheme='blue' mr={3} fontWeight='medium' type='submit' isLoading={isLoading}>
               Create
             </Button>
           </ModalFooter>

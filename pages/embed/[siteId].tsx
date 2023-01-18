@@ -37,6 +37,7 @@ export async function getStaticPaths() {
 const EmbeddedFeedbackPage = ({ initialFeedback }) => {
   const { user } = useAuth();
 
+  const [isLoading1, setIsLoading1] = useState(false);
   const router = useRouter();
 
   const [input, setInput] = useState('');
@@ -44,7 +45,7 @@ const EmbeddedFeedbackPage = ({ initialFeedback }) => {
 
   const onCommentSubmit = async (e) => {
     e.preventDefault();
-
+    setIsLoading1(true);
     const newFeedback = {
       author: user.name,
       authorId: user.uid,
@@ -57,6 +58,7 @@ const EmbeddedFeedbackPage = ({ initialFeedback }) => {
 
     const { id: newFeedbackId } = await createFeedback(newFeedback);
     setAllFeedback([{ id: newFeedbackId, ...newFeedback }, ...allFeedback]);
+    setIsLoading1(false);
     setInput('');
   };
 
@@ -79,6 +81,7 @@ const EmbeddedFeedbackPage = ({ initialFeedback }) => {
             fontWeight='semibold'
             colorScheme='gray'
             isDisabled={router.isFallback}
+            isLoading={isLoading}
           >
             Add Comment
           </Button>
