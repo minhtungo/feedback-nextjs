@@ -29,7 +29,7 @@ export default function Home() {
           dangerouslySetInnerHTML={{
             __html: `
           if (document.cookie && document.cookie.includes('authed')) {
-            window.location.href = "/dashboard"
+            window.location.href = "/sites"
           }
         `,
           }}
@@ -46,7 +46,7 @@ export default function Home() {
         <Icon as={MdOutlineFeedback} boxSize={10} />
         {auth.user ? (
           <>
-            <Link href='/dashboard'>
+            <Link href='/sites'>
               <Button
                 size='sm'
                 fontWeight='semibold'

@@ -27,7 +27,7 @@ export default function Feedback() {
   return (
     <DashboardShell>
       <TableHeader subtitle='Feedback' title='All Feedback' />
-      {data.feedback ? (
+      {data?.feedback?.length ? (
         <FeedbackTable allFeedback={data.feedback} />
       ) : (
         <EmptyState />

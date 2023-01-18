@@ -8,8 +8,9 @@ import { useAuth } from '@/lib/auth';
 import fetcher from '@/utils/fetcher';
 import FeedbackTable from '@/components/feedback/FeedbackTable';
 import TableHeader from '@/components/common/TableHeader';
+import EmptyFeedback from '@/components/feedback/EmptyFeedback';
 
-export default function Feedback() {
+export default function SiteFeedback() {
   const { query } = useRouter();
   const siteId = query.siteId;
   const { user } = useAuth();
@@ -35,10 +36,10 @@ export default function Feedback() {
         title={data.site.name}
         siteName={data.site.name}
       />
-      {data.feedback ? (
+      {data?.feedback?.length ? (
         <FeedbackTable allFeedback={data.feedback} />
       ) : (
-        <EmptyState />
+        <EmptyFeedback />
       )}
     </DashboardShell>
   );

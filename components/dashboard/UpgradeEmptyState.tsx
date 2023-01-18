@@ -1,5 +1,4 @@
 import { Heading, Flex, Text, Button } from '@chakra-ui/react';
-import AddSiteModal from './AddSiteModal';
 
 import { useAuth } from '@/lib/auth';
 

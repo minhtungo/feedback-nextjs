@@ -31,7 +31,7 @@ const Navbar = () => {
           <Link href='/'>
             <Icon as={MdOutlineFeedback} boxSize={6} mr={8} />
           </Link>
-          <Link href='/dashboard'>
+          <Link href='/sites'>
             <ChakraLink as='span' mr={4}>
               Sites
             </ChakraLink>
@@ -43,7 +43,9 @@ const Navbar = () => {
         <Flex justify='center' align='center'>
           {user && (
             <Link href='/account'>
-              <ChakraLink as='span' mr={4}>Account</ChakraLink>
+              <ChakraLink as='span' mr={4}>
+                Account
+              </ChakraLink>
             </Link>
           )}
           <Avatar size='sm' src={user?.photoURL} />

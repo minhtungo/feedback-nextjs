@@ -71,7 +71,7 @@ const useProvideAuth = () => {
   };
 
   const signInWithGitHub = async () => {
-    router.push('/dashboard');
+    router.push('/sites');
 
     try {
       const result = await signInWithPopup(auth, new GithubAuthProvider());
@@ -85,7 +85,7 @@ const useProvideAuth = () => {
   };
 
   const signInWithGoogle = async () => {
-    router.push('/dashboard');
+    router.push('/sites');
     try {
       const result = await signInWithPopup(auth, new GoogleAuthProvider());
       const { isNewUser } = getAdditionalUserInfo(result);
