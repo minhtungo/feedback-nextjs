@@ -23,6 +23,7 @@ import { FieldValues, useForm } from 'react-hook-form';
 
 import { createSite } from '@/lib/firestore';
 import fetcher from '@/utils/fetcher';
+import StyledButton from '../common/StyledButton';
 
 const AddSiteModal = ({ text }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -67,21 +68,11 @@ const AddSiteModal = ({ text }) => {
 
   return (
     <>
-      <Button
+      <StyledButton
         onClick={onOpen}
-        bg='gray.900'
-        color='white'
-        fontWeight='semibold'
-        _hover={{
-          bg: 'gray.700',
-        }}
-        _active={{
-          bg: 'gray.800',
-          transform: 'scale(1.05)',
-        }}
       >
         {text}
-      </Button>
+      </StyledButton>
       <Modal
         initialFocusRef={initialRef}
         finalFocusRef={finalRef}

@@ -17,6 +17,8 @@ import { getAllFeedback, getAllSites } from '@/lib/firestore-admin';
 import { useAuth } from '@/lib/auth';
 import { createFeedback } from '@/lib/firestore';
 import DashboardShell from '@/components/dashboard/DashboardShell';
+import StyledButton from '@/components/common/StyledButton';
+import LoginButtons from '@/components/common/LoginButtons';
 
 export async function getStaticProps(context) {
   const siteId = context.params.siteId;
@@ -71,26 +73,18 @@ const SiteFeedback = ({ initialFeedback }) => {
 
   const Permission = () =>
     user ? (
-      <Button
-        size='md'
+      <StyledButton
         type='submit'
         isDisabled={!input || router.isFallback}
-        fontWeight='semibold'
         mt={4}
-        bg='gray.900'
-        color='white'
-        _hover={{
-          bg: 'gray.700',
-        }}
-        _active={{
-          bg: 'gray.800',
-          transform: 'scale(1.05)',
-        }}
       >
         Add Comment
-      </Button>
+      </StyledButton>
     ) : (
-      <Text>Sign in to leave a comment.</Text>
+      <>
+        <Text mt={2}>Sign in to leave a comment.</Text>
+        <LoginButtons mt={4} />
+      </>
     );
 
   return (
@@ -106,8 +100,11 @@ const SiteFeedback = ({ initialFeedback }) => {
           <FormControl my={8}>
             <FormLabel htmlFor='comment'>Comment</FormLabel>
             <Textarea
+              colorScheme='blackAlpha'
               id='comment'
-              placeholder='Leave a comment'
+              placeholder={
+                user ? 'Leave a comment' : 'Sign in to leave a comment'
+              }
               value={input}
               bg='white'
               h='100px'

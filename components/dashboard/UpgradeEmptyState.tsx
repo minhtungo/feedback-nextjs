@@ -1,6 +1,7 @@
 import { Heading, Flex, Text, Button } from '@chakra-ui/react';
 
 import { useAuth } from '@/lib/auth';
+import StyledButton from '../common/StyledButton';
 
 const UpgradeEmptyState = () => {
   const { user } = useAuth();
@@ -21,21 +22,9 @@ const UpgradeEmptyState = () => {
         Get feedback on your site instantly.
       </Heading>
       <Text mb={4}>Let&apos;s get started!</Text>
-      <Button
-        onClick={() => onSignUpPlan()}
-        backgroundColor='gray.900'
-        color='white'
-        fontWeight='semibold'
-        _hover={{
-          bg: 'gray.700',
-        }}
-        _active={{
-          bg: 'gray.800',
-          transform: 'scale(1.05)',
-        }}
-      >
+      <StyledButton onClick={() => onSignUpPlan()}>
         Sign Up for Free Trial
-      </Button>
+      </StyledButton>
     </Flex>
   );
 };

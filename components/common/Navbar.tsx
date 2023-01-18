@@ -5,7 +5,6 @@ import {
   Link as ChakraLink,
   Icon,
   Avatar,
-  Button,
 } from '@chakra-ui/react';
 import { MdOutlineFeedback } from 'react-icons/md';
 import Link from 'next/link';

@@ -6,6 +6,7 @@ import DashboardShell from '@/components/dashboard/DashboardShell';
 import AccountTable from '@/components/account/AccountTable';
 import Usage from '@/components/account/Usage';
 import fetcher from '@/utils/fetcher';
+import StyledButton from '@/components/common/StyledButton';
 
 const Account = () => {
   const { user, setUser, signOutUser } = useAuth();
@@ -49,25 +50,12 @@ const Account = () => {
             in odit?
           </Text>
           <Flex justify='flex-end'>
-            <Button variant='ghost' ml={4} onClick={() => signOutUser()}>
+            <StyledButton variant='secondary' onClick={() => signOutUser()}>
               Log Out
-            </Button>
-            <Button
-              ml={4}
-              onClick={() => onSignUpPlan()}
-              backgroundColor='gray.900'
-              color='white'
-              fontWeight='semibold'
-              _hover={{
-                bg: 'gray.700',
-              }}
-              _active={{
-                bg: 'gray.800',
-                transform: 'scale(1.05)',
-              }}
-            >
+            </StyledButton>
+            <StyledButton onClick={() => onSignUpPlan()} ml={3}>
               Free Trial
-            </Button>
+            </StyledButton>
           </Flex>
         </AccountTable>
       </Flex>
