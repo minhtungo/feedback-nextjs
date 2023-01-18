@@ -55,6 +55,7 @@ export const getUserFeedback = async (userId) => {
   const snapshot = await db
     .collection('feedbacks')
     .where('authorId', '==', userId)
+    .where('status', '!=', 'removed')
     .get();
   const feedback = snapshot.docs.map((doc) => ({
     id: doc.id,

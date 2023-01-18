@@ -1,9 +1,8 @@
 // @ts-nocheck
-import { Box, Code, Switch, IconButton } from '@chakra-ui/react';
-import { MdDelete } from 'react-icons/md';
-import RemoveButton from '../common/RemoveButton';
+import { Box} from '@chakra-ui/react';
 
-import { Table, Tr, Th, Td } from '../common/Table';
+import { Table, Tr, Th} from '../common/Table';
+import FeedbackRow from './FeedbackRow';
 
 const FeedbackTable = ({ allFeedback }: any) => {
   return (
@@ -20,19 +19,7 @@ const FeedbackTable = ({ allFeedback }: any) => {
         </thead>
         <tbody>
           {allFeedback.map((feedback) => (
-            <Box as='tr' key={feedback.id}>
-              <Td fontWeight='semibold'>{feedback.author}</Td>
-              <Td>{feedback.text}</Td>
-              <Td>
-                <Code>{'/'}</Code>
-              </Td>
-              <Td>
-                <Switch defaultChecked={feedback.status === 'active'} />
-              </Td>
-              <Td display='flex' align='center'>
-                <RemoveButton feedbackId={feedback.id}/>
-              </Td>
-            </Box>
+            <FeedbackRow key={feedback.id} {...feedback} />
           ))}
         </tbody>
       </Table>

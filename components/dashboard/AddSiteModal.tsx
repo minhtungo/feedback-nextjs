@@ -46,7 +46,7 @@ const AddSiteModal = ({ text }) => {
 
   const onCreateSite = async ({ name, url }: FieldValues): void => {
     const newSite = {
-      authorId: user ? user.id : null,
+      authorId: user ? user.uid : null,
       createdAt: new Date().toISOString(),
       name,
       url,

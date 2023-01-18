@@ -1,5 +1,11 @@
 import { db } from './firebase';
-import { collection, addDoc, deleteDoc, doc, setDoc } from 'firebase/firestore';
+import {
+  collection,
+  updateDoc,
+  deleteDoc,
+  doc,
+  setDoc,
+} from 'firebase/firestore';
 
 export const createUser = async (uid: string, data: User) => {
   const newUserRef = doc(collection(db, 'users'));
@@ -21,6 +27,13 @@ export const createFeedback = async (data: Feedback) => {
 };
 
 export const deleteFeedback = async (id: string) => {
-  const feedbackRef = await deleteDoc(doc(db, 'feedbacks', id));
-  return feedbackRef;
+  const feedbackRef = doc(db, 'feedbacks', id);
+  await updateDoc(feedbackRef, {status: 'removed'});
+  // const feedbackRef = await deleteDoc(doc(db, 'feedbacks', id));
+  // return feedbackRef;
+};
+
+export const updateFeedback = async (id: string, newValues: any) => {
+  const feedbackRef = doc(db, 'feedbacks', id);
+  await updateDoc(feedbackRef, newValues);
 };
