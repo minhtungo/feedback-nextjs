@@ -4,7 +4,7 @@ interface NewSite {
 }
 
 interface User {
-  uid: string;
+  id: string;
   email: string;
   name: string;
   provider: string;

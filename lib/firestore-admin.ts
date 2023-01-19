@@ -2,12 +2,17 @@
 
 import { db } from './firebase-admin';
 
-export const getAllFeedback = async (siteId) => {
+export const getAllFeedback = async (siteId, route) => {
   try {
-    const snapshot = await db
+    const feedbackRef = db
       .collection('feedbacks')
-      .where('siteId', '==', siteId)
-      .get();
+      .where('siteId', '==', siteId);
+
+    if (route) {
+      feedbackRef.where('route', '==', route);
+    }
+
+    const snapshot = await feedbackRef.get();
 
     const feedback = snapshot.docs.map((doc) => ({
       id: doc.id,
@@ -52,6 +57,27 @@ export const getSite = async (siteId) => {
   }
 };
 
+export const deleteSite = async (siteId)=> {
+  try {
+    const siteRef = db.collection('sites').doc(siteId);
+    await siteRef.delete();
+
+    // Delete all feedbacks related to this site
+    const feedbacks = await db
+      .collection('feedbacks')
+      .where('siteId', '==', siteId)
+      .get();
+
+    feedbacks.forEach((feedback) => {
+      feedback.ref.delete();
+    });
+
+    return { success: true };
+  } catch (error) {
+    return { error };
+  }
+}
+
 export const getUserSites = async (userId) => {
   const snapshot = await db
     .collection('sites')
@@ -80,9 +106,8 @@ export const getUserFeedback = async (userId) => {
   return { feedback };
 };
 
-export const signUpForPlan = async (uid: string) => {
-  const userRef = await db.collection('users').where('uid', '==', uid).get();
-  const user = userRef.docs[0];
-  await user.ref.update({ plan: 'trial' });
+export const signUpForPlan = async (userId: string) => {
+  const userRef = db.collection('users').doc(userId);
+  await userRef.update({ plan: 'trial' });
   return user.data();
 };

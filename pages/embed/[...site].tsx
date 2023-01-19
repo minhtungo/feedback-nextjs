@@ -10,8 +10,8 @@ import { useAuth } from '@/lib/auth';
 import { createFeedback } from '@/lib/firestore';
 
 export async function getStaticProps(context) {
-  const siteId = context.params.siteId;
-  const { feedback } = await getAllFeedback(siteId);
+  const [siteId, route] = context.params.site;
+  const { feedback } = await getAllFeedback(siteId, route);
 
   return {
     props: {
@@ -25,7 +25,7 @@ export async function getStaticPaths() {
   const { sites } = await getAllSites();
 
   const paths = sites.map((site) => ({
-    params: { siteId: site.id.toString() },
+    params: { site: [site.id.toString()] },
   }));
 
   return {
@@ -37,7 +37,7 @@ export async function getStaticPaths() {
 const EmbeddedFeedbackPage = ({ initialFeedback }) => {
   const { user } = useAuth();
 
-  const [isLoading1, setIsLoading1] = useState(false);
+  const [isLoading1, setIsLoading] = useState(false);
   const router = useRouter();
 
   const [input, setInput] = useState('');
@@ -45,7 +45,7 @@ const EmbeddedFeedbackPage = ({ initialFeedback }) => {
 
   const onCommentSubmit = async (e) => {
     e.preventDefault();
-    setIsLoading1(true);
+    setIsLoading(true);
     const newFeedback = {
       author: user.name,
       authorId: user.uid,
@@ -58,7 +58,7 @@ const EmbeddedFeedbackPage = ({ initialFeedback }) => {
 
     const { id: newFeedbackId } = await createFeedback(newFeedback);
     setAllFeedback([{ id: newFeedbackId, ...newFeedback }, ...allFeedback]);
-    setIsLoading1(false);
+    setIsLoading(false);
     setInput('');
   };
 
@@ -81,7 +81,7 @@ const EmbeddedFeedbackPage = ({ initialFeedback }) => {
             fontWeight='semibold'
             colorScheme='gray'
             isDisabled={router.isFallback}
-            isLoading={isLoading}
+            // isLoading={isLoading}
           >
             Add Comment
           </Button>

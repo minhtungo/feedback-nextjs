@@ -1,11 +1,6 @@
 // @ts-nocheck
 
-import {
-  Flex,
-  Link as ChakraLink,
-  Icon,
-  Avatar,
-} from '@chakra-ui/react';
+import { Flex, Link as ChakraLink, Icon, Avatar } from '@chakra-ui/react';
 import { MdOutlineFeedback } from 'react-icons/md';
 import Link from 'next/link';
 
@@ -15,7 +10,7 @@ const Navbar = () => {
   const { user, signOutUser } = useAuth();
 
   return (
-    <Flex bg='white' mb={[8, 16]} w='full'>
+    <Flex bg='white' w='full'>
       <Flex
         align='center'
         justify='space-between'

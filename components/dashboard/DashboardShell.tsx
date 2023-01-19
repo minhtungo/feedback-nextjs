@@ -26,7 +26,7 @@ const DashboardShell = ({ children }: DashboardShellTypes) => {
           name,
         }}
       />
-      <Box h='100vh'>
+      <Box h='100vh' pt={4} bg='gray.100'>
         <Flex
           maxW='1250px'
           w='full'

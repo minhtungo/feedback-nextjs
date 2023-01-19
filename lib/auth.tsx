@@ -32,7 +32,7 @@ export const useAuth = () => {
 
 const formatUser = (user: User) => {
   return {
-    uid: user.uid,
+    id: user.uid,
     email: user.email,
     name: user.displayName,
     provider: user.providerData[0].providerId,
@@ -58,7 +58,7 @@ const useProvideAuth = () => {
       const { token, ...userWithoutToken } = user;
 
       if (isNewUser) {
-        createUser(user.uid, userWithoutToken);
+        createUser(user.id, userWithoutToken);
       }
       setUser(user);
       Cookies.set('authed', true, { expires: 3 });

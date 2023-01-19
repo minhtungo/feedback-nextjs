@@ -2,14 +2,16 @@ import { db } from './firebase';
 import {
   collection,
   updateDoc,
-  deleteDoc,
   doc,
   setDoc,
+  deleteDoc,
+  query,
+  where,
+  getDocs,
 } from 'firebase/firestore';
 
-export const createUser = async (uid: string, data: User) => {
-  const newUserRef = doc(collection(db, 'users'));
-
+export const createUser = async (userId: string, data: User) => {
+  const newUserRef = doc(db, 'users', userId);
   await setDoc(newUserRef, data);
   return newUserRef;
 };
@@ -20,6 +22,24 @@ export const createSite = async (data: Site) => {
   return newSiteRef;
 };
 
+export const updateSite = async (siteId: string, newValues: any) => {
+  const siteRef = doc(db, 'sites', siteId);
+  await updateDoc(siteRef, newValues);
+};
+
+export const deleteSite = async (id: string) => {
+  await deleteDoc(doc(db, 'sites', id));
+
+  const feedbackRef = collection(db, 'feedbacks');
+  const q = query(feedbackRef, where('siteId', '==', id));
+  const docSnap = await getDocs(q);
+  docSnap.forEach((doc) => {
+    deleteDoc(doc.ref);
+  });
+
+  return feedbackRef;
+};
+
 export const createFeedback = async (data: Feedback) => {
   const newFeedbackRef = doc(collection(db, 'feedbacks'));
   await setDoc(newFeedbackRef, data);
@@ -27,10 +47,8 @@ export const createFeedback = async (data: Feedback) => {
 };
 
 export const deleteFeedback = async (id: string) => {
-  const feedbackRef = doc(db, 'feedbacks', id);
-  await updateDoc(feedbackRef, {status: 'removed'});
-  // const feedbackRef = await deleteDoc(doc(db, 'feedbacks', id));
-  // return feedbackRef;
+  const feedbackRef = await deleteDoc(doc(db, 'feedbacks', id));
+  return feedbackRef;
 };
 
 export const updateFeedback = async (id: string, newValues: any) => {

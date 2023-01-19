@@ -5,8 +5,9 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const siteId = req.query.siteId;
-  const { feedback, error } = await getAllFeedback(siteId);
+  console.log('req.query.site: ', req.query.site);
+  const [siteId, route] = req.query.site;
+  const { feedback, error } = await getAllFeedback(siteId, route);
   const { site } = await getSite(siteId);
 
   if (error) {

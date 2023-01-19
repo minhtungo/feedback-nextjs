@@ -13,7 +13,7 @@ import { tableHeaderConfig } from '@/configs/propConfigs';
 export default function Dashboard() {
   const { user } = useAuth();
 
-  const { data, isLoading, error } = useSWR(
+  const { data, error } = useSWR(
     user ? ['/api/sites', user?.token] : null,
     ([url, token]) => fetcher(url, token)
   );

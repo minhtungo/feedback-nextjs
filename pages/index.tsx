@@ -1,7 +1,5 @@
 import Head from 'next/head';
-import { FiGithub } from 'react-icons/fi';
-import { FcGoogle } from 'react-icons/fc';
-import { Flex, Button, Icon, Stack } from '@chakra-ui/react';
+import { Flex, Button, Icon } from '@chakra-ui/react';
 import Link from 'next/link';
 import { MdOutlineFeedback } from 'react-icons/md';
 
@@ -55,7 +53,7 @@ export default function Home() {
             </Button>
           </>
         ) : (
-          <LoginButtons mt={4}/>
+          <LoginButtons mt={4} />
         )}
       </Flex>
     </>

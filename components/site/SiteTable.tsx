@@ -5,6 +5,7 @@ import { Box, Link as ChakraLink } from '@chakra-ui/react';
 import dayjs from 'dayjs';
 
 import { Table, Tr, Th, Td } from '../common/Table';
+import DeleteSiteButton from '../common/DeleteSiteButton';
 
 const SiteTable = ({ sites }: any) => {
   return (
@@ -38,6 +39,7 @@ const SiteTable = ({ sites }: any) => {
                 </Link>
               </Td>
               <Td>{dayjs(site.createdAt).format('MMM D, YYYY, h:mm A')}</Td>
+              <Td><DeleteSiteButton siteId={site.id}></DeleteSiteButton></Td>
             </Box>
           ))}
         </tbody>

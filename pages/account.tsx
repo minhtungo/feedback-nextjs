@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Avatar, Heading, Box, Button, Flex, Text } from '@chakra-ui/react';
+import { Avatar, Heading, Flex, Text } from '@chakra-ui/react';
 
 import { useAuth } from '@/lib/auth';
 import DashboardShell from '@/components/dashboard/DashboardShell';
@@ -12,15 +12,7 @@ const Account = () => {
   const { user, setUser, signOutUser } = useAuth();
 
   const onSignUpPlan = async () => {
-    const response = await fetcher(
-      '/api/user/upgrade-plan',
-      user?.token,
-      'PUT'
-    );
-
-    setUser((currentUser: User) =>
-      currentUser ? { ...currentUser, plan: response.plan } : null
-    );
+    await fetcher('/api/user/upgrade-plan', user?.token, 'PUT');
   };
 
   return (

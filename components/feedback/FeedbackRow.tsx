@@ -3,7 +3,7 @@ import { Box, Code, Switch } from '@chakra-ui/react';
 import { useState } from 'react';
 
 import { updateFeedback } from '@/lib/firestore';
-import RemoveButton from '../common/RemoveButton';
+import RemoveButton from '../common/DeleteFeedbackButton';
 import useSWR from 'swr';
 
 import { Td } from '../common/Table';
@@ -19,10 +19,11 @@ const FeedbackRow = ({ id, author, text, route, status }: any) => {
   const onToggleFeedback = async (e) => {
     setChecked(!checked);
     setIsLoading(true);
-    await updateFeedback(id, { status: !checked ? 'active' : 'disabled' });
+    await updateFeedback(id, { status: !checked ? 'active' : 'pending' });
     mutate();
     setIsLoading(false);
   };
+
   return (
     <Box as='tr'>
       <Td fontWeight='semibold'>{author}</Td>
@@ -31,7 +32,11 @@ const FeedbackRow = ({ id, author, text, route, status }: any) => {
         <Code>{route || '/'}</Code>
       </Td>
       <Td>
-        <Switch isChecked={checked} onChange={onToggleFeedback} isDisabled={isLoading}/>
+        <Switch
+          isChecked={checked}
+          onChange={onToggleFeedback}
+          isDisabled={isLoading}
+        />
       </Td>
       <Td display='flex' align='center'>
         <RemoveButton feedbackId={id} />

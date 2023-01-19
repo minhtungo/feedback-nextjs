@@ -1,32 +1,27 @@
 // @ts-nocheck
 
-import {
-  Box,
-  Button,
-  FormControl,
-  FormLabel,
-  Input,
-  Text,
-  Textarea,
-} from '@chakra-ui/react';
+import { Box, FormControl, Text, Textarea } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import Feedback from '@/components/feedback/Feedback';
-import { getAllFeedback, getAllSites } from '@/lib/firestore-admin';
+import { getAllFeedback, getAllSites, getSite } from '@/lib/firestore-admin';
 import { useAuth } from '@/lib/auth';
 import { createFeedback } from '@/lib/firestore';
 import DashboardShell from '@/components/dashboard/DashboardShell';
 import StyledButton from '@/components/common/StyledButton';
 import LoginButtons from '@/components/common/LoginButtons';
+import TableHeader from '@/components/common/TableHeader';
 
 export async function getStaticProps(context) {
-  const siteId = context.params.siteId;
-  const { feedback } = await getAllFeedback(siteId);
+  const [siteId, route] = context.params.site;
+  const { feedback } = await getAllFeedback(siteId, route);
+  const { site } = await getSite(siteId);
 
   return {
     props: {
       initialFeedback: feedback,
+      site,
     },
     revalidate: 1,
   };
@@ -36,19 +31,21 @@ export async function getStaticPaths() {
   const { sites } = await getAllSites();
 
   const paths = sites.map((site) => ({
-    params: { siteId: site.id.toString() },
+    params: { site: [site.id.toString()] },
   }));
 
   return {
     paths,
-    fallback: true, // can also be true or 'blocking'
+    fallback: 'blocking', // can also be true or 'blocking'
   };
 }
 
-const SiteFeedback = ({ initialFeedback }) => {
-  const { user } = useAuth();
-
+const SiteFeedback = ({ initialFeedback, site }) => {
+  const { user, loading } = useAuth();
   const router = useRouter();
+  const query = router.query?.site;
+  const siteId = query ? query[0] : null;
+  const route = query ? query[1] : null;
 
   const [input, setInput] = useState('');
   const [allFeedback, setAllFeedback] = useState(initialFeedback);
@@ -57,17 +54,18 @@ const SiteFeedback = ({ initialFeedback }) => {
     e.preventDefault();
 
     const newFeedback = {
+      siteId,
+      route: route || '/',
       author: user.name,
-      authorId: user.uid,
-      siteId: router.query.siteId,
+      authorId: user.id,
       text: input,
       createdAt: new Date().toISOString(),
       provider: user.provider,
       status: 'pending',
     };
 
-    const { id: newFeedbackId } = await createFeedback(newFeedback);
-    setAllFeedback([{ id: newFeedbackId, ...newFeedback }, ...allFeedback]);
+    setAllFeedback([newFeedback, ...allFeedback]);
+    await createFeedback(newFeedback);
     setInput('');
   };
 
@@ -89,16 +87,18 @@ const SiteFeedback = ({ initialFeedback }) => {
 
   return (
     <DashboardShell>
-      <Box
-        display='flex'
-        flexDirection='column'
-        w='full'
-        maxW='700px'
-        margin='0 auto'
-      >
+      <TableHeader
+        isSiteOwner={true}
+        title={site?.name}
+        subtitle={'Sites'}
+        siteName={site?.name}
+        route={route}
+        settings={site?.settings}
+        siteId={siteId}
+      />
+      <Box display='flex' flexDirection='column' w='full' maxW='700px'>
         <Box as='form' onSubmit={onCommentSubmit}>
           <FormControl my={8}>
-            <FormLabel htmlFor='comment'>Comment</FormLabel>
             <Textarea
               colorScheme='blackAlpha'
               id='comment'
@@ -116,7 +116,11 @@ const SiteFeedback = ({ initialFeedback }) => {
         </Box>
         {allFeedback && allFeedback.length > 0 ? (
           allFeedback.map((feedback) => (
-            <Feedback key={feedback.id} {...feedback} />
+            <Feedback
+              siteSettings={site?.settings}
+              key={feedback.id}
+              {...feedback}
+            />
           ))
         ) : (
           <Text>There are no comments for this site.</Text>
