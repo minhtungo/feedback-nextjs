@@ -10,7 +10,7 @@ const Navbar = () => {
   const { user, signOutUser } = useAuth();
 
   return (
-    <Flex bg='white' w='full'>
+    <Flex bg='white' w='full' mb={[8, 16]}>
       <Flex
         align='center'
         justify='space-between'

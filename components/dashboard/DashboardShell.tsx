@@ -3,6 +3,7 @@
 import { Flex, Box } from '@chakra-ui/react';
 import { NextSeo } from 'next-seo';
 import { useRouter } from 'next/router';
+import Navbar from '../common/Navbar';
 
 interface DashboardShellTypes {
   children: React.ReactNode;
@@ -26,7 +27,8 @@ const DashboardShell = ({ children }: DashboardShellTypes) => {
           name,
         }}
       />
-      <Box h='100vh' pt={4} bg='gray.100'>
+      <Box h='100vh' bg='gray.100'>
+        <Navbar />
         <Flex
           maxW='1250px'
           w='full'

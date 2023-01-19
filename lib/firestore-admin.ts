@@ -2,7 +2,7 @@
 
 import { db } from './firebase-admin';
 
-export const getAllFeedback = async (siteId, route) => {
+export const getAllFeedback = async (siteId, route = null) => {
   try {
     const feedbackRef = db
       .collection('feedbacks')
@@ -57,7 +57,7 @@ export const getSite = async (siteId) => {
   }
 };
 
-export const deleteSite = async (siteId)=> {
+export const deleteSite = async (siteId) => {
   try {
     const siteRef = db.collection('sites').doc(siteId);
     await siteRef.delete();
@@ -76,7 +76,7 @@ export const deleteSite = async (siteId)=> {
   } catch (error) {
     return { error };
   }
-}
+};
 
 export const getUserSites = async (userId) => {
   const snapshot = await db

@@ -1,4 +1,4 @@
-import { getAllFeedback, getSite } from '@/lib/firestore-admin';
+import { getSite } from '@/lib/firestore-admin';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
 export default async function handler(

@@ -3,9 +3,10 @@
 import { Box, FormControl, Text, Textarea } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import useSWR from 'swr';
+import fetcher from '@/utils/fetcher';
 
 import Feedback from '@/components/feedback/Feedback';
-import { getAllFeedback, getAllSites, getSite } from '@/lib/firestore-admin';
 import { useAuth } from '@/lib/auth';
 import { createFeedback } from '@/lib/firestore';
 import DashboardShell from '@/components/dashboard/DashboardShell';
@@ -13,48 +14,39 @@ import StyledButton from '@/components/common/StyledButton';
 import LoginButtons from '@/components/common/LoginButtons';
 import TableHeader from '@/components/common/TableHeader';
 
-export async function getStaticProps(context) {
-  const [siteId, route] = context.params.site;
-  const { feedback } = await getAllFeedback(siteId, route);
-  const { site } = await getSite(siteId);
-
-  return {
-    props: {
-      initialFeedback: feedback,
-      site,
-    },
-    revalidate: 1,
-  };
-}
-
-export async function getStaticPaths() {
-  const { sites } = await getAllSites();
-
-  const paths = sites.map((site) => ({
-    params: { site: [site.id.toString()] },
-  }));
-
-  return {
-    paths,
-    fallback: 'blocking', // can also be true or 'blocking'
-  };
-}
-
-const SiteFeedback = ({ initialFeedback, site }) => {
-  const { user, loading } = useAuth();
+const FeedbackPage = () => {
+  const { user, loading: isLoading } = useAuth();
   const router = useRouter();
+
   const query = router.query?.site;
   const siteId = query ? query[0] : null;
   const route = query ? query[1] : null;
 
+  const feedbackApi = route
+    ? `/api/feedback/${siteId}/${route}`
+    : `/api/feedback/${siteId}`;
+
+  const {data: siteData } = useSWR(
+    [`/api/site/${siteId}`, user?.token],
+    ([url, token]) => fetcher(url, token)
+  );
+
+  const { mutate, data: feedbackData } = useSWR(
+    [feedbackApi, user?.token],
+    ([url, token]) => fetcher(url, token)
+  );
+
+  const site = siteData?.site;
+  const allFeedback = feedbackData?.feedback;
+
   const [input, setInput] = useState('');
-  const [allFeedback, setAllFeedback] = useState(initialFeedback);
 
   const onCommentSubmit = async (e) => {
     e.preventDefault();
 
     const newFeedback = {
       siteId,
+      siteAuthorId: site?.authorId,
       route: route || '/',
       author: user.name,
       authorId: user.id,
@@ -63,19 +55,14 @@ const SiteFeedback = ({ initialFeedback, site }) => {
       provider: user.provider,
       status: 'pending',
     };
-
-    setAllFeedback([newFeedback, ...allFeedback]);
     await createFeedback(newFeedback);
+    mutate();
     setInput('');
   };
 
   const Permission = () =>
     user ? (
-      <StyledButton
-        type='submit'
-        isDisabled={!input || router.isFallback}
-        mt={4}
-      >
+      <StyledButton type='submit' isDisabled={!input} mt={4}>
         Add Comment
       </StyledButton>
     ) : (
@@ -88,7 +75,7 @@ const SiteFeedback = ({ initialFeedback, site }) => {
   return (
     <DashboardShell>
       <TableHeader
-        isSiteOwner={true}
+        isSiteOwner={site?.authorId === user?.id}
         title={site?.name}
         subtitle={'Sites'}
         siteName={site?.name}
@@ -111,14 +98,15 @@ const SiteFeedback = ({ initialFeedback, site }) => {
               isDisabled={!user}
               onChange={(e) => setInput(e.target.value)}
             />
-            <Permission />
+            {!isLoading && <Permission />}
           </FormControl>
         </Box>
         {allFeedback && allFeedback.length > 0 ? (
-          allFeedback.map((feedback) => (
+          allFeedback.map((feedback, index) => (
             <Feedback
               siteSettings={site?.settings}
               key={feedback.id}
+              isLast={index === allFeedback.length - 1}
               {...feedback}
             />
           ))
@@ -130,4 +118,4 @@ const SiteFeedback = ({ initialFeedback, site }) => {
   );
 };
 
-export default SiteFeedback;
+export default FeedbackPage;

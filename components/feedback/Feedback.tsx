@@ -13,6 +13,7 @@ interface FeedbackProps {
     showRating: boolean;
     showTimestamp: boolean;
   };
+  isLast?: boolean;
 }
 
 const Feedback = ({
@@ -21,35 +22,41 @@ const Feedback = ({
   createdAt,
   provider,
   siteSettings,
+  isLast,
 }: FeedbackProps) => {
   return (
-    <Box borderRadius='sm' maxW='700px' w='full'>
-      <Flex align='center'>
-        <Heading
-          size='sm'
-          as='h3'
-          mb={0}
-          color='gray.900'
-          fontWeight='semibold'
-        >
-          {author}
-        </Heading>
-        {siteSettings?.displayIcon && (
-          <Icon
-            as={provider?.includes('google') ? FcGoogle : FiGithub}
-            ml={2}
-          />
+    <>
+      <Box borderRadius='sm' maxW='700px' w='full'>
+        <Flex align='center'>
+          <Heading
+            size='sm'
+            as='h3'
+            mb={0}
+            color='gray.900'
+            fontWeight='semibold'
+          >
+            {author}
+          </Heading>
+          {siteSettings?.displayIcon && (
+            <Icon
+              as={provider?.includes('google') ? FcGoogle : FiGithub}
+              ml={2}
+            />
+          )}
+        </Flex>
+        {siteSettings?.showTimestamp && (
+          <Text color='gray.500' mb={4} fontSize='xs'>
+            {dayjs(createdAt).format('MMM D, YYYY, h:mm A')}
+          </Text>
         )}
-      </Flex>
-      {siteSettings?.showTimestamp && (
-        <Text color='gray.500' mb={4} fontSize='xs'>
-          {dayjs(createdAt).format('MMM D, YYYY, h:mm A')}
-        </Text>
-      )}
 
-      <Text color='gray.800'>{text}</Text>
-      <Divider borderColor='gray.200' my={6} />
-    </Box>
+        <Text color='gray.800'>{text}</Text>
+        <Divider borderColor='gray.200' my={4} />
+      </Box>
+      {/* {!isLast && (
+        <Divider borderColor={'gray.50'} mt={6} mb={6} />
+      )} */}
+    </>
   );
 };
 
