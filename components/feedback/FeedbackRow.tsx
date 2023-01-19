@@ -9,7 +9,7 @@ import useSWR from 'swr';
 import { Td } from '../common/Table';
 import { useAuth } from '@/lib/auth';
 
-const FeedbackRow = ({ id, author, text, route, status }: any) => {
+const FeedbackRow = ({ id, author, text, route, status, siteId }: any) => {
   const [checked, setChecked] = useState(status === 'active');
   const [isLoading, setIsLoading] = useState(false);
   const { user } = useAuth();

@@ -12,7 +12,7 @@ import { createFeedback } from '@/lib/firestore';
 import DashboardShell from '@/components/dashboard/DashboardShell';
 import StyledButton from '@/components/common/StyledButton';
 import LoginButtons from '@/components/common/LoginButtons';
-import TableHeader from '@/components/common/TableHeader';
+import SiteHeader from '@/components/site/SiteHeader';
 
 const FeedbackPage = () => {
   const { user, loading: isLoading } = useAuth();
@@ -26,7 +26,7 @@ const FeedbackPage = () => {
     ? `/api/feedback/${siteId}/${route}`
     : `/api/feedback/${siteId}`;
 
-  const {data: siteData } = useSWR(
+  const { data: siteData } = useSWR(
     [`/api/site/${siteId}`, user?.token],
     ([url, token]) => fetcher(url, token)
   );
@@ -74,14 +74,11 @@ const FeedbackPage = () => {
 
   return (
     <DashboardShell>
-      <TableHeader
-        isSiteOwner={site?.authorId === user?.id}
-        title={site?.name}
-        subtitle={'Sites'}
-        siteName={site?.name}
-        route={route}
-        settings={site?.settings}
+      <SiteHeader
+        isSiteOwner={site?.authorId === user?.uid}
+        site={site}
         siteId={siteId}
+        route={route}
       />
       <Box display='flex' flexDirection='column' w='full' maxW='700px'>
         <Box as='form' onSubmit={onCommentSubmit}>

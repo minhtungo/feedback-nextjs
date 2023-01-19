@@ -5,6 +5,7 @@ import { Table, Tr, Th} from '../common/Table';
 import FeedbackRow from './FeedbackRow';
 
 const FeedbackTable = ({ allFeedback }: any) => {
+  console.log(allFeedback);
   return (
     <Box overflowX='scroll'>
       <Table w='full'>

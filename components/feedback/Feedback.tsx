@@ -2,6 +2,7 @@ import { Box, Heading, Text, Divider, Flex, Icon } from '@chakra-ui/react';
 import dayjs from 'dayjs';
 import { FiGithub } from 'react-icons/fi';
 import { FcGoogle } from 'react-icons/fc';
+import ReactMarkdown from 'react-markdown';
 
 interface FeedbackProps {
   author?: string;
@@ -50,7 +51,9 @@ const Feedback = ({
           </Text>
         )}
 
-        <Text color='gray.800'>{text}</Text>
+        <Box>
+          <ReactMarkdown>{text}</ReactMarkdown>
+        </Box>
         <Divider borderColor='gray.200' my={4} />
       </Box>
       {/* {!isLast && (

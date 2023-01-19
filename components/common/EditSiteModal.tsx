@@ -22,7 +22,6 @@ import useSWR from 'swr';
 import { FieldValues, useForm } from 'react-hook-form';
 
 import { updateSite } from '@/lib/firestore';
-import fetcher from '@/utils/fetcher';
 import StyledButton from '../common/StyledButton';
 
 const EditSiteModal = ({ text, settings, siteId }) => {

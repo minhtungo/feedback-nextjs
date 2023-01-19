@@ -37,12 +37,9 @@ const Navbar = () => {
         <Flex justify='center' align='center'>
           {user && (
             <Link href='/account'>
-              <ChakraLink as='span' mr={4}>
-                Account
-              </ChakraLink>
+              <Avatar bg='gray.200' size='sm' src={user?.photoURL} />
             </Link>
           )}
-          <Avatar size='sm' src={user?.photoURL} />
         </Flex>
       </Flex>
     </Flex>

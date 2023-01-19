@@ -19,6 +19,7 @@ interface Site {
   createdAt: number;
   name: string;
   url: string;
+  settings: SiteSettings;
 }
 
 interface Feedback {
